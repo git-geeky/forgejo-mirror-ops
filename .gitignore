@@ -1,0 +1,21 @@
+# Deny by default. This directory mixes source files with live mirror state.
+*
+
+# Tracked source.
+!.gitignore
+!.gitattributes
+!.woodpecker.yml
+!README.md
+!docker-compose.yml
+!docker-compose.prod.yml
+!prepare-shadow.ps1
+!rebuild-fresh-forgejo-mirror.ps1
+!retarget-sync-task.ps1
+!Sync-ForgejoMirrorDrift.ps1
+!sync-new-repos.ps1
+!Test-ForgejoMirrorRefs.ps1
+!windows-credential.ps1
+
+# Sanitized examples only.
+!examples/
+!examples/app.ini.example

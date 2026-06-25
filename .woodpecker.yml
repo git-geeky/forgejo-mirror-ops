@@ -1,0 +1,36 @@
+when:
+  - event: push
+  - event: manual
+
+steps:
+  validate-powershell:
+    image: mcr.microsoft.com/powershell:7.5-alpine-3.20
+    commands:
+      - |
+        pwsh -NoLogo -NoProfile -Command - <<'PS'
+        $ErrorActionPreference = 'Stop'
+        $psFiles = Get-ChildItem -File -Include *.ps1
+        foreach ($file in $psFiles) {
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$errors) | Out-Null
+          if ($errors.Count) {
+            $messages = $errors | ForEach-Object { "$($file.Name): $($_.Message)" }
+            throw ($messages -join "`n")
+          }
+        }
+        PS
+
+  validate-compose:
+    image: alpine:3.20
+    commands:
+      - apk add --no-cache docker-cli-compose >/dev/null
+      - docker compose -f docker-compose.yml config -q
+      - docker compose -f docker-compose.prod.yml config -q
+
+  validate-tracked-boundary:
+    image: alpine/git:2.45.2
+    commands:
+      - |
+        bad="$(git ls-files | grep -E '^(shadow/|backups/|upgrade-test-1502/)|(^|/)app\.ini$|\.db(-wal|-shm)?$|\.log(\.|$)' || true)"
+        test -z "$bad" || { printf '%s\n' "$bad"; exit 1; }

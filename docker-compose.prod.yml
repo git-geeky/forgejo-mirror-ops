@@ -1,0 +1,12 @@
+services:
+  forgejo-mirror:
+    image: codeberg.org/forgejo/forgejo:15.0.3-rootless
+    container_name: local-forgejo-mirror
+    ports:
+      - "127.0.0.1:3300:3000"
+    volumes:
+      - ./shadow/app.ini:/etc/gitea/app.ini
+      - ./shadow/data:/var/lib/gitea
+      - ./shadow/repos:/var/lib/gitea/git/repositories
+      - ./shadow/log:/var/lib/gitea/log
+    command: ["forgejo", "web", "--config", "/etc/gitea/app.ini"]

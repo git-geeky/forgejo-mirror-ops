@@ -1,0 +1,36 @@
+APP_NAME = Forgejo Mirror
+RUN_USER = git
+RUN_MODE = prod
+WORK_PATH = /var/lib/gitea
+
+[server]
+APP_DATA_PATH = /var/lib/gitea/data
+DOMAIN = localhost
+HTTP_ADDR = 0.0.0.0
+HTTP_PORT = 3000
+ROOT_URL = http://localhost:3300/
+DISABLE_SSH = true
+START_SSH_SERVER = false
+LFS_START_SERVER = false
+OFFLINE_MODE = true
+
+[database]
+DB_TYPE = sqlite3
+PATH = /var/lib/gitea/data/forgejo-mirror.db
+
+[security]
+INSTALL_LOCK = true
+SECRET_KEY = replace-with-generated-secret
+INTERNAL_TOKEN = replace-with-generated-token
+
+[oauth2]
+JWT_SECRET = replace-with-generated-jwt-secret
+
+[service]
+DISABLE_REGISTRATION = true
+REQUIRE_SIGNIN_VIEW = false
+
+[log]
+MODE = console,file
+LEVEL = info
+ROOT_PATH = /var/lib/gitea/log
