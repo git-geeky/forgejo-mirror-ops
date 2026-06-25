@@ -21,7 +21,7 @@ $ErrorActionPreference = 'Stop'
 function Invoke-RefVerifier {
     param([string]$Path)
 
-    $output = & $Path -RemoteRepoRoot $RemoteRepoRoot -RemoteTarget $RemoteTarget -Json 2>&1
+    $output = & $Path -MirrorRoot $MirrorRoot -RemoteRepoRoot $RemoteRepoRoot -RemoteTarget $RemoteTarget -Json 2>&1
     $exitCode = $LASTEXITCODE
     $jsonText = @($output | Where-Object {
         $_ -is [string] -and $_.TrimStart().StartsWith('{')
