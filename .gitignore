@@ -15,7 +15,16 @@
 !sync-new-repos.ps1
 !Test-ForgejoMirrorRefs.ps1
 !windows-credential.ps1
+!Invoke-ForgejoMirrorWithRestore.ps1
 
 # Sanitized examples only.
 !examples/
 !examples/app.ini.example
+!config/
+!config/restore.example.json
+
+# Local private restore overlay. This may contain private endpoints, host paths,
+# or credential target names and must not be committed.
+restore.local.json
+*.local.json
+.local/

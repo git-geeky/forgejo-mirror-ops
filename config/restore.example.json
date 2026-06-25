@@ -1,0 +1,13 @@
+{
+  "local_url": "http://127.0.0.1:3300/api/v1",
+  "local_owner": "mirror-admin",
+  "remote_url": "https://forge.example.com/api/v1",
+  "remote_clone_base": "https://forge.example.com/owner",
+  "remote_repo_root": "/srv/git/repositories/owner",
+  "remote_target": "remote-host-alias",
+  "remote_header_base": "https://forge.example.com",
+  "credential_targets": {
+    "local_api": "forgejomirror-local-api",
+    "remote_api": "forgejo-remote-api"
+  }
+}

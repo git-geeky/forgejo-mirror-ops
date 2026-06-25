@@ -9,6 +9,14 @@ SQLite files, bare repos, logs, backups, upgrade scratch directories, and
 `shadow\app.ini` are intentionally ignored. Do not stage runtime state or
 secret-bearing config.
 
+This public repository is sanitized. Machine-specific endpoints, host paths,
+and credential target names belong in a local restore file outside git. Copy
+`config\restore.example.json` to a private path such as
+`%LOCALAPPDATA%\forgejo-mirror-ops\restore.local.json`, edit it for your
+machine, and set `FORGEJO_MIRROR_RESTORE_FILE` if you use another path. The
+wrapper `Invoke-ForgejoMirrorWithRestore.ps1` reads that file and passes values
+to the underlying scripts without printing credential values.
+
 Current live endpoint:
 
 - `http://127.0.0.1:3300`
@@ -21,12 +29,16 @@ Daily discovery of new remote repos is handled by the Windows task
 
 ```powershell
 .\sync-new-repos.ps1 -RemoteUrl https://forge.example.com/api/v1
+# or, with a private restore file:
+.\Invoke-ForgejoMirrorWithRestore.ps1 sync-new-repos
 ```
 
 Full-ref integrity verification is handled by:
 
 ```powershell
 .\Test-ForgejoMirrorRefs.ps1 -RemoteRepoRoot /srv/git/repositories/owner
+# or, with a private restore file:
+.\Invoke-ForgejoMirrorWithRestore.ps1 test-refs
 ```
 
 It compares sorted `git show-ref --head` hashes for every remote repo under
@@ -40,6 +52,8 @@ If verification reports only mismatched refs, repair those mirrors with:
 
 ```powershell
 .\Sync-ForgejoMirrorDrift.ps1
+# or, with a private restore file:
+.\Invoke-ForgejoMirrorWithRestore.ps1 sync-drift
 ```
 
 The drift repair script uses the existing verifier JSON, triggers the local
