@@ -4,6 +4,7 @@ param(
     [string]$RemoteUrl,
     [string]$RemoteCloneBase = $(if ($env:FORGEJO_REMOTE_CLONE_BASE) { $env:FORGEJO_REMOTE_CLONE_BASE } else { '' }),
     [string]$LocalOwner = $(if ($env:FORGEJO_MIRROR_LOCAL_OWNER) { $env:FORGEJO_MIRROR_LOCAL_OWNER } else { 'mirror-admin' }),
+    [string]$MirrorRoot = (Join-Path $PSScriptRoot 'shadow'),
     [string]$LocalCredentialTarget = $(if ($env:FORGEJO_MIRROR_LOCAL_CREDENTIAL_TARGET) { $env:FORGEJO_MIRROR_LOCAL_CREDENTIAL_TARGET } else { 'forgejomirror-local-api' }),
     [string]$RemoteCredentialTarget = $(if ($env:FORGEJO_REMOTE_CREDENTIAL_TARGET) { $env:FORGEJO_REMOTE_CREDENTIAL_TARGET } else { 'forgejo-remote-api' })
 )
@@ -20,7 +21,6 @@ $RemoteToken = Get-WindowsGenericCredentialSecret -Target $RemoteCredentialTarge
 if ([string]::IsNullOrWhiteSpace($LocalToken)) { throw "missing CredMan target '$LocalCredentialTarget'" }
 if ([string]::IsNullOrWhiteSpace($RemoteToken)) { throw "missing CredMan target '$RemoteCredentialTarget'" }
 
-$MirrorRoot = Join-Path $PSScriptRoot 'shadow'
 $RepoRoot = Join-Path $MirrorRoot "repos\$LocalOwner"
 $LogFile = Join-Path $MirrorRoot 'log\sync-new-repos.log'
 

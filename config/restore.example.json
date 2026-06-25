@@ -4,6 +4,8 @@
   "remote_url": "https://forge.example.com/api/v1",
   "remote_clone_base": "https://forge.example.com/owner",
   "remote_repo_root": "/srv/git/repositories/owner",
+  "mirror_shadow_root": "D:/ForgejoMirror/shadow",
+  "mirror_bare_root": "D:/ForgejoMirror/shadow/repos/mirror-admin",
   "remote_target": "remote-host-alias",
   "remote_header_base": "https://forge.example.com",
   "credential_targets": {
